@@ -1,4 +1,5 @@
 # EKS DevSecOps Pipeline
+<img width="1408" height="768" alt="eks-devsecops-pipeline2" src="https://github.com/user-attachments/assets/fc33b8d1-45e6-45cd-a41c-e7616e1b07a0" />
 
 [![CI](https://github.com/TushaeBXN/eks-devsecops-pipeline/actions/workflows/devsecops.yml/badge.svg)](https://github.com/TushaeBXN/eks-devsecops-pipeline/actions/workflows/devsecops.yml)
 

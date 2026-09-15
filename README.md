@@ -34,6 +34,7 @@ push to main
 | **IaC policy enforcement** | Checkov validates Terraform against 1,000+ misconfiguration rules |
 | **GitHub Container Registry** | Image built and published to `ghcr.io`, no external registry account needed |
 | **Least-privilege IAM** | Pipeline authenticates via `GITHUB_TOKEN` scoped to this repo only |
+| **Ansible automation** | Playbook provisions a fresh Linux node with kubectl + ArgoCD CLI — one command, any number of nodes |
 
 ## Project Structure
 
@@ -49,7 +50,10 @@ eks-devsecops-pipeline/
 |   |-- deployment.yaml     # 2-replica Deployment, resource limits set
 |   `-- service.yaml        # NodePort Service
 `-- argocd/
-    `-- application.yaml    # ArgoCD Application, auto-sync + self-heal
+|   `-- application.yaml    # ArgoCD Application, auto-sync + self-heal
+`-- ansible/
+    |-- setup-tools.yml     # Installs kubectl + ArgoCD CLI on any Linux node
+    `-- hosts.example       # Inventory template — copy to hosts and fill in IPs
 ```
 
 ## Prerequisites
@@ -98,6 +102,26 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
 Open `https://localhost:8080`, login with `admin` and the password above.
+
+## Ansible — Node Provisioning
+
+Instead of manually SSHing into each node to install tooling, `ansible/setup-tools.yml` handles it automatically. One command configures any number of nodes identically.
+
+**What it installs:**
+- `kubectl` v1.29.0
+- `argocd` CLI v2.11.0
+
+**How to run it:**
+
+```bash
+# 1. Copy the example inventory and fill in your node IPs
+cp ansible/hosts.example ansible/hosts
+
+# 2. Run the playbook
+ansible-playbook -i ansible/hosts ansible/setup-tools.yml
+```
+
+The playbook is **idempotent** — running it twice produces the same result as running it once. Safe to re-run after node replacements or scaling events.
 
 ## Key Design Decisions
 

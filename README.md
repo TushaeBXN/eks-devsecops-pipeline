@@ -1,5 +1,5 @@
 # EKS DevSecOps Pipeline
-<img width="1408" height="768" alt="eks-devsecops-pipeline2" src="https://github.com/user-attachments/assets/fc33b8d1-45e6-45cd-a41c-e7616e1b07a0" />
+<img width="1408" height="768" alt="3part port" src="https://github.com/user-attachments/assets/9b7615e9-06fe-4f85-b38f-69f85100be70" />
 
 [![CI](https://github.com/TushaeBXN/eks-devsecops-pipeline/actions/workflows/devsecops.yml/badge.svg)](https://github.com/TushaeBXN/eks-devsecops-pipeline/actions/workflows/devsecops.yml)
 

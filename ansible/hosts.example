@@ -1,0 +1,9 @@
+# Rename this file to `hosts` and fill in your node's IP or hostname.
+# Example for an EC2 instance:
+#
+# [nodes]
+# 10.0.1.42 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/eks-key.pem
+#
+# For a local kind node (for testing):
+# [nodes]
+# localhost ansible_connection=local

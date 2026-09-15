@@ -1,0 +1,52 @@
+---
+# Installs kubectl and ArgoCD CLI on a fresh Ubuntu/Debian Linux node.
+# Run: ansible-playbook -i hosts ansible/setup-tools.yml
+
+- name: Set up EKS tooling on a Linux node
+  hosts: all
+  become: true
+
+  vars:
+    kubectl_version: "v1.29.0"
+    argocd_version: "v2.11.0"
+    install_dir: /usr/local/bin
+
+  tasks:
+    - name: Install required system packages
+      apt:
+        name:
+          - curl
+          - unzip
+          - ca-certificates
+        state: present
+        update_cache: true
+
+    - name: Download kubectl
+      get_url:
+        url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+        dest: "{{ install_dir }}/kubectl"
+        mode: "0755"
+
+    - name: Verify kubectl is working
+      command: kubectl version --client --short
+      register: kubectl_check
+      changed_when: false
+
+    - name: Print kubectl version
+      debug:
+        msg: "{{ kubectl_check.stdout }}"
+
+    - name: Download ArgoCD CLI
+      get_url:
+        url: "https://github.com/argoproj/argo-cd/releases/download/{{ argocd_version }}/argocd-linux-amd64"
+        dest: "{{ install_dir }}/argocd"
+        mode: "0755"
+
+    - name: Verify ArgoCD CLI is working
+      command: argocd version --client
+      register: argocd_check
+      changed_when: false
+
+    - name: Print ArgoCD version
+      debug:
+        msg: "{{ argocd_check.stdout_lines[0] }}"
